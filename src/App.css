@@ -1,0 +1,116 @@
+#root {
+  min-width: 1000px; /* 确保足够宽度支持两个 450px 图表 + 20px gap */
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.2rem;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  background-color: #472a56;
+  color: aquamarine;
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.file-query {
+  display: flex; /* 修正为 flex，确保水平排列 */
+  gap: 5px; /* input 和 button 之间的间隙 */
+  margin: 0 auto;
+  justify-content: center; /* 水平居中子元素 */
+  align-items: center; /* 垂直居中子元素，确保高度一致 */
+}
+
+input {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1em;
+  padding: 0.6em 1.2em;
+  font-size:1.2em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #933ae0;
+  color: rgb(255, 219, 172);
+  width: 20%;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1em;
+  padding: 0.6em 1.2em;
+  font-size: 1.2em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #290848;
+  color: antiquewhite;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.charts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%; /* 确保占满父容器 */
+  min-height: 400px; /* 确保有足够高度 */
+}
+
+section {
+  display: block;
+  unicode-bidi: isolate;
+  width: 50%;
+  flex: 1;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: space-between;
+  height: 400px;
+  min-width: 720px; /* 增加最小宽度，确保图表可读 */
+  background-color: rgba(78, 87, 173, 0.9); /* 半透明的背景色 */
+  border-radius: 10px; /* 圆角效果 */
+  padding: 10px; /* 可选：添加一些内边距，让图表看起来更美观 */
+  box-shadow: 0 6px 10px rgba(218, 204, 204, 0.2); /* 添加阴影，增加立体感 */
+}
+
+.charts-container h2 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2px; /* 增加标题与图表之间的间距 */
+}
+
+
+
+/* @keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+} */
