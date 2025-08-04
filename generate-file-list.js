@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 // 定义 public 文件夹路径
-const publicDir = './src/assets';
+const publicDir = '/public/reports';
 
 // 扫描 public 文件夹中的 .csv 文件
 const files = fs.readdirSync(publicDir).filter(file => file.endsWith('.csv'));
