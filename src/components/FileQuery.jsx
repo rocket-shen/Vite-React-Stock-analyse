@@ -4,7 +4,13 @@ function FileQuery({onQuery}) {
   const [code, setCode] = useState('');
   const handleQuery = () => {
     if(onQuery){
-      onQuery(code);
+      // 将输入的股票代码转换为大写
+      const upperCaseCode = code.trim().toUpperCase();
+      if (!upperCaseCode) {
+        alert('请输入有效的股票代码');
+        return;
+      }
+      onQuery(upperCaseCode);
     }
   };
   return (

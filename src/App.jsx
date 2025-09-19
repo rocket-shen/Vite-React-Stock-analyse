@@ -12,7 +12,7 @@ function App() {
       setData(parsedData); 
     } catch (error) {
       console.error("Error querying parsed sheet:", error);
-      alert(error.message); 
+      alert(`查询失败：${error.message || '网络错误，请稍后重试'}`);
     }
   };
 

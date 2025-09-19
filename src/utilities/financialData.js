@@ -1,79 +1,76 @@
-import { parseSheets } from "./csvReader";
+import { fetchFinancialData } from "./fetchXueqiu.js";
 
-export const financialData = async (code) => {
-  try {
-    const { companyName, balanceSheet, incomeSheet, cashFlowSheet } = await parseSheets(code);
+export const financialData = async (code) => {  
+    const data = await fetchFinancialData(code);
 
-    if (!balanceSheet || !incomeSheet || !cashFlowSheet) {
-      throw new Error("Missing required financial sheets");
-    }
-
-    // 按“报告期”对齐数据并计算指标
-    const results = balanceSheet.map((balance) => {
-      const 报告期 = balance["报告期"];
-
-      // 查找同一报告期的 incomeSheet 和 cashFlowSheet 数据
-      const income = incomeSheet.find((item) => item["报告期"] === 报告期);
-      const cashFlow = cashFlowSheet.find((item) => item["报告期"] === 报告期);
-
-      if (!income || !cashFlow) {
-        return {
-          companyName,
-          报告期,
+// 1. balanceData 映射
+    const balanceMap = {};
+    data.balanceData.forEach(item => {
+        balanceMap[item.report_date] = {
+            equity: item.total_quity_atsopc || 0, // 归属于母公司股东权益合计
+            assets: item.total_assets || 0, // 资产合计
+            liabilities: item.total_liab || 0, // 负债合计
+            currentAssets: item.total_current_assets || 0, // 流动资产
+            currentLiabilities: item.total_current_liab || 0, // 流动负债
+            currencyFunds: item.currency_funds || 0, // 货币资金
+            arAndBr: item.ar_and_br || 0, // 应收账款及票据
+            inventory: item.inventory || 0, // 存货
+            contractualAssets: item.contractual_assets || 0, // 合同资产
         };
-      }
-
-      // 计算 ROE 和 ROA
-      const 归母净利润 = parseFloat(income["归属于母公司股东的净利润"]) || 0;
-      const 净利润 = parseFloat(income["净利润"]) || 0;
-      const 营业收入 = parseFloat(income["其中：营业收入"]) || 0;
-      const 营业成本 = parseFloat(income["其中：营业成本"]) || 0;
-
-      const 母公司股东权益 = parseFloat(balance["归属于母公司股东权益合计"]) || 0;
-      const 货币资金 = parseFloat(balance["货币资金"]) || 0;
-      const 应收票据及账款 = parseFloat(balance["应收票据及应收账款"]) || 0;
-      const 存货 = parseFloat(balance["存货"]) || 0;
-      const 合同资产 = parseFloat(balance["合同资产"]) || 0;
-
-      const 资产合计 = parseFloat(balance["资产合计"]) || 0;
-      const 流动资产 = parseFloat(balance["流动资产合计"]) || 0;
-      const 流动负债 = parseFloat(balance["流动负债合计"]) || 0;
-      const 负债合计 = parseFloat(balance["负债合计"]) || 0;
-      const 经营现金流净额 =
-        parseFloat(cashFlow["经营活动产生的现金流量净额"]) || 0;
-
-
-      const 资产负债率 = 资产合计 !== 0 ? (负债合计 / 资产合计) * 100 : null; 
-      const 流动比率 = 流动负债 !== 0 ? 流动资产 / 流动负债 : null; 
-      const ROE = 母公司股东权益 !== 0 ? (归母净利润 / 母公司股东权益) * 100 : null; 
-      const ROA = 资产合计 !== 0 ? (净利润 / 资产合计) * 100 : null; 
-      const 毛利率 = 营业收入 !== 0 ? ((营业收入 - 营业成本) / 营业收入) * 100 : null;
-
-      return {
-        companyName,
-        报告期,
-        货币资金,
-        存货,
-        应收票据及账款,
-        合同资产,
-        ROE: ROE ? ROE.toFixed(2) : null, 
-        ROA: ROA ? ROA.toFixed(2) : null,
-        毛利率: 毛利率 ? 毛利率.toFixed(2) : null,
-        流动比率: 流动比率 ? 流动比率.toFixed(2) : null,
-        资产负债率: 资产负债率 ? 资产负债率.toFixed(2) : null,
-        经营现金流净额,
-        净利润,
-        营业收入,
-        资产合计,
-        流动资产,
-        流动负债,
-        负债合计,
-      };
     });
 
-    return results;
-  } catch (error) {
-    console.error("Error calculating financial metrics:", error);
-    throw error;
-  }
+    // 2. cashData 映射
+    const cashMap = {};
+    data.cashData.forEach(item => {
+        cashMap[item.report_date] = {
+            netCashFlowOper: item.ncf_from_oa || 0 // 经营现金流净额
+        };
+    });
+
+    // 3. 计算 ROA & ROE
+    const dataList = data.incomeData.map(item => {
+        const netProfitAtsopc = item.net_profit_atsopc || 0; //归母净利润
+        const netProfit = item.net_profit || 0; //净利润
+        const revenue = item.revenue || 0; // 营业收入
+        const operatingCost = item.operating_cost || 0; // 营业成本
+        const { equity = 0, assets = 0, liabilities = 0, currentAssets = 0, currentLiabilities = 0,
+            currencyFunds = 0, arAndBr = 0, inventory = 0, contractualAssets = 0 } = balanceMap[item.report_date] || {};
+        const { netCashFlowOper = 0 } = cashMap[item.report_date] || {}; //解构赋值 从 cashMap[item.report_date] || {} 返回的对象中提取 netCashFlowOper 属性
+
+        const roe = equity ? (netProfitAtsopc / equity) * 100 : 0;
+        const roa = assets ? (netProfitAtsopc / assets) * 100 : 0;
+        const debtToAssetRatio = assets ? (liabilities / assets) * 100 : 0; // 资产负债率
+        const currentRatio = currentLiabilities ? (currentAssets / currentLiabilities) : 0; // 流动比率
+        const grossMargin = revenue ? ((revenue - operatingCost) / revenue) * 100 : 0; // 毛利率
+
+        return {
+            '报告期': item.report_date,
+            ROE: Number(roe.toFixed(2)),
+            ROA: Number(roa.toFixed(2)),
+            资产负债率: Number(debtToAssetRatio.toFixed(2)),
+            流动比率: Number(currentRatio.toFixed(2)),
+            流动资产: Number(currentAssets.toFixed(2)),
+            货币资金: Number(currencyFunds.toFixed(2)),
+            应收账款及票据: Number(arAndBr.toFixed(2)),
+            存货: Number(inventory.toFixed(2)),
+            合同资产: Number(contractualAssets.toFixed(2)),
+            资产合计: Number(assets.toFixed(2)),
+            流动负债: Number(currentLiabilities.toFixed(2)),
+            负债合计: Number(liabilities.toFixed(2)),
+            毛利率: Number(grossMargin.toFixed(2)),
+            净利润: Number(netProfit.toFixed(2)), // 净利润
+            归母净利润: Number(netProfitAtsopc.toFixed(2)), //
+            经营现金流净额: Number(netCashFlowOper.toFixed(2)),
+            营业收入: Number(revenue.toFixed(2)),// 营业收入
+        };
+    });
+
+    // 3. 升序
+    dataList.sort((a, b) => new Date(a['报告期']) - new Date(b['报告期']));
+    // 4. 返回 stockName 和 dataList
+    return {
+        stockName: data.stockName,
+        dataList
+    };
 };
+

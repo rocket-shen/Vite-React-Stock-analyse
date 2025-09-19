@@ -69,6 +69,7 @@ async function fetchFinancialData(symbol, folderPath) {
             // 获取并保存资产负债表
             const balanceData = await fetchData(urlBalance, cookies, params1);
             const balanceCsv = convertToCsv(balanceData, balanceMap);
+            console.log(`balanceCsv数据: ${balanceCsv}`);
             await fs.writeFile(path.join(folderPath, `${symbol}_${stockName}_资产负债表.csv`), balanceCsv);
             console.log(`${symbol}_${stockName}_资产负债表已保存到：${folderPath}文件夹中`);
 
