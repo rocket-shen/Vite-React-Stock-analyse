@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
   Line,
+  ReferenceLine
 } from "recharts";
 
 function FinancialCharts({ data }) {
@@ -97,6 +98,83 @@ function FinancialCharts({ data }) {
                   name="净资产收益率"
                 />
               </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+      </div>
+
+      <div className="charts-container">
+        <section>
+          <h2>{companyName} 营业收入同比增长 (YOY)</h2>
+          <div className="chart-container">
+            <ResponsiveContainer>
+              <BarChart
+                data={sortedData}
+                margin={{ top: 10, right: 10, left: 10, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="报告期"
+                  tickFormatter={(date) =>
+                    new Date(date).toLocaleDateString("zh-CN", {
+                      year: "numeric",
+                      month: "short",
+                    })
+                  }
+                  tick={{ fill: "#FFFFFF" }}
+                />
+                <YAxis unit="%" tick={{ fill: "#FFFFFF" }} />
+                <Tooltip
+                  formatter={(value) => `${value}%`}
+                  labelFormatter={(label) =>
+                    new Date(label).toLocaleDateString("zh-CN")
+                  }
+                />
+                <Legend />
+                <ReferenceLine y={0} stroke="#FFFFFF" /> {/* 添加 0 轴参考线 */}
+                <Bar
+                  dataKey="营业收入同比"
+                  fill="#82ca9d"
+                  name="营业收入同比增长"
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+        <section>
+          <h2>{companyName} 净利润同比增长 (YOY)</h2>
+          <div className="chart-container">
+            <ResponsiveContainer>
+              <BarChart
+                data={sortedData}
+                margin={{ top: 10, right: 10, left: 10, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="报告期"
+                  tickFormatter={(date) =>
+                    new Date(date).toLocaleDateString("zh-CN", {
+                      year: "numeric",
+                      month: "short",
+                    })
+                  }
+                  tick={{ fill: "#FFFFFF" }}
+                />
+                <YAxis unit="%" tick={{ fill: "#FFFFFF" }} />
+                <Tooltip
+                  formatter={(value) => `${value}%`}
+                  labelFormatter={(label) =>
+                    new Date(label).toLocaleDateString("zh-CN")
+                  }
+                />
+                <Legend />
+                <ReferenceLine y={0} stroke="#FFFFFF" /> {/* 添加 0 轴参考线 */}
+                <Bar
+                  dataKey="净利润同比"
+                  fill="#8884d8"
+                  name="净利润同比增长"
+                />
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </section>

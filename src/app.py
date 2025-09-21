@@ -51,8 +51,7 @@ def fetch_data(url, cookies, params):
         for item in data_list:
             if item.get("report_date"):
                 item["report_date"] = datetime.fromtimestamp(item["report_date"] / 1000).strftime("%Y-%m-%d")
-            processed_item = {k: v[0] if isinstance(v, list) else v for k, v in item.items()}
-            processed_data.append(processed_item)
+            processed_data.append(item)
         return processed_data
     except Exception as e:
         raise Exception(f"获取数据失败: {str(e)}")
