@@ -1,0 +1,63 @@
+#root {
+  min-width: 1000px; /* 确保足够宽度支持两个 450px 图表 + 20px gap */
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.2rem;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  background-color: #472a56;
+  color: aquamarine;
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.toggle-button-container {
+  display: flex;
+  justify-content: center; /* 水平居中按钮 */
+  align-items: center; /* 垂直居中 */
+  margin: 10px 0; /* 添加垂直外边距，与其他元素保持间距 */
+}
+
+.toggle-table-btn {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 8px 16px;
+  margin: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex; /* 确保按钮文字居中 */
+  justify-content: center; /* 文字水平居中 */
+  align-items: center; /* 文字垂直居中 */
+}
+
+.toggle-table-btn:hover {
+  background-color: #555;
+}
+
+/* @keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+} */

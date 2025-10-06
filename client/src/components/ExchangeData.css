@@ -1,0 +1,59 @@
+.exchange-data-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0px; /* 与 FinancialTable 一致 */
+  background-color: transparent; /* 与 FinancialTable 一致 */
+  border-radius: 0px; /* 与 FinancialTable 一致 */
+  color: rgba(255, 255, 255, 0.85); /* 降低刺眼度，与 FinancialTable 一致 */
+}
+
+.exchange-data-container h2 {
+  color: rgba(255, 255, 255, 0.85); /* 与 FinancialTable 一致 */
+  text-align: center;
+  margin-bottom: 16px; /* 与 FinancialTable 一致 */
+  font-weight: normal; /* 与 FinancialTable 一致 */
+  font-size: 1.1rem; /* 与 FinancialTable 一致 */
+  letter-spacing: 1px; /* 与 FinancialTable 一致 */
+}
+
+.exchange-data-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr); /* 固定每行8列 */
+  gap: 0px; /* 移除间距，与 FinancialTable 无间距一致 */
+  width: 100%;
+  padding: 0px; /* 移除内边距，与 FinancialTable 一致 */
+  background-color: transparent; /* 与 FinancialTable 一致 */
+  border: none; /* 移除边框，与 FinancialTable 无外边框一致 */
+}
+
+.exchange-data-grid > div {
+  display: flex;
+  justify-content: space-between; /* 键值对左右分布 */
+  padding: 10px 12px; /* 与 FinancialTable 一致 */
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.15); /* 与 FinancialTable 一致 */
+  background-color: transparent; /* 与 FinancialTable 一致 */
+  transition: background-color 0.3s; /* 与 FinancialTable 一致 */
+}
+
+.exchange-data-grid > div:hover {
+  background-color: rgba(255, 255, 255, 0.03); /* 与 FinancialTable 一致 */
+}
+
+.exchange-data-grid > div > span:first-child {
+  font-weight: normal; /* 与 FinancialTable 一致，移除加粗 */
+  color: rgba(255, 255, 255, 0.65); /* 与 FinancialTable th 一致 */
+  font-size: 0.9rem; /* 与 FinancialTable 一致 */
+  flex: 1; /* 键名占可用空间 */
+  text-align: left; /* 键名左对齐 */
+  overflow: hidden; /* 防止溢出 */
+  text-overflow: ellipsis; /* 超出部分显示省略号 */
+  white-space: nowrap; /* 防止换行 */
+}
+
+.exchange-data-grid > div > span:last-child {
+  color: rgba(255, 255, 255, 0.85); /* 与 FinancialTable td 一致 */
+  font-size: 0.9rem; /* 与 FinancialTable 一致 */
+  text-align: right; /* 数值右对齐 */
+  min-width: 60px; /* 确保数值有足够宽度对齐 */
+  white-space: nowrap; /* 防止换行 */
+}

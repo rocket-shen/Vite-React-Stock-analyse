@@ -1,0 +1,46 @@
+.file-query {
+  display: flex;
+  gap: 5px; /* input 和 button 之间的间隙 */
+  margin: 0 auto;
+  justify-content: center; /* 水平居中子元素 */
+  align-items: center; /* 垂直居中子元素，确保高度一致 */
+}
+
+input, button {
+  border-radius: 8px;
+  border: 1px solid #555; /* 统一边框，移除 transparent，增加可见性 */
+  font-size: 1.5em; /* 统一字体大小 */
+  font-weight: 500;
+  font-family: inherit;
+  padding: 0.6em 1.2em; /* 统一内边距 */
+  height: 55px; /* 固定高度，确保一致 */
+  box-sizing: border-box; /* 确保边框和内边距不影响总高度 */
+  line-height: 1.5; /* 统一行高，避免文本垂直偏移 */
+  transition: border-color 0.25s;
+}
+
+input {
+  background-color: #e5d8f1;
+  color: rgb(35, 34, 33);
+  width: 20%; /* 保持宽度 */
+}
+
+button {
+  background-color: #290848;
+  color: antiquewhite;
+  cursor: pointer;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible,
+input:focus,
+input:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}

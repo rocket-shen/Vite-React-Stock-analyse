@@ -1,0 +1,49 @@
+.financial-table-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0px;
+  background-color: transparent; 
+  border-radius: 0px;
+}
+
+.financial-table-container h2 {
+   color: #ffffff;
+  text-align: center;
+  margin-bottom: 16px;
+  font-weight: normal;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.financial-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: rgba(255, 255, 255, 0.85); /* 降低纯白刺眼度 */
+  background: transparent;
+}
+
+/* 表头：仅底部 0.5 px 极细灰线 */
+.financial-table th {
+  padding: 10px 12px;
+  text-align: right;
+  font-weight: normal;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.9rem;
+}
+
+/* 单元格：去掉左右边框，仅保留极细底部分隔线 */
+.financial-table td {
+  padding: 10px 12px;
+  text-align: right;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 悬停：仅微微提亮背景，几乎看不出 */
+.financial-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.financial-table td:first-child {
+  text-align: left;
+}

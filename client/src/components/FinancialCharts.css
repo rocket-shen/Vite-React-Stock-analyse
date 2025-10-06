@@ -1,0 +1,36 @@
+.charts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%; /* 确保占满父容器 */
+  min-height: 400px; /* 确保有足够高度 */
+}
+
+section {
+  display: block;
+  unicode-bidi: isolate;
+  width: 50%;
+  flex: 1;
+}
+
+span {
+  color: rgb(253, 129, 129);
+  font-weight: bold;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: space-between;
+  height: 400px;
+  min-width: 720px; /* 增加最小宽度，确保图表可读 */
+  background-color: rgba(78, 87, 173, 0.9); /* 半透明的背景色 */
+  border-radius: 10px; /* 圆角效果 */
+  padding: 10px; /* 可选：添加一些内边距，让图表看起来更美观 */
+  box-shadow: 0 6px 10px rgba(218, 204, 204, 0.2); /* 添加阴影，增加立体感 */
+}
+
+.charts-container h2 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2px; /* 增加标题与图表之间的间距 */
+}
