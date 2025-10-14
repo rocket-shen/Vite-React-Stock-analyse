@@ -73,6 +73,7 @@ export const financialData = async (code) => {
     dataList.sort((a, b) => new Date(a['报告期']) - new Date(b['报告期']));
     // 4. 返回 stockName 和 dataList
     return {
+        Symbol:code,
         stockName: data.stockName,
         dataList,
         reportData: data.reportData || [],

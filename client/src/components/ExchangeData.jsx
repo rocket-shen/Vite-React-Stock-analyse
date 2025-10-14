@@ -1,7 +1,7 @@
 import './ExchangeData.css'; // 假设有对应的 CSS 文件
 function ExchangeData({ data }) {
     if (!data || !data.exchangeData || Object.keys(data.exchangeData).length === 0) {
-    return <div>暂无报告数据</div>;
+    return <div>请输入股票代码查询交易数据</div>;
   }
   const exchangeData = data.exchangeData;
 

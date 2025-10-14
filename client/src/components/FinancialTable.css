@@ -7,7 +7,7 @@
 }
 
 .financial-table-container h2 {
-   color: #ffffff;
+   color: #fc6c6c;
   text-align: center;
   margin-bottom: 16px;
   font-weight: normal;
@@ -18,7 +18,7 @@
 .financial-table {
   width: 100%;
   border-collapse: collapse;
-  color: rgba(255, 255, 255, 0.85); /* 降低纯白刺眼度 */
+  color: rgba(255, 218, 218, 0.85); /* 降低纯白刺眼度 */
   background: transparent;
 }
 
@@ -28,7 +28,7 @@
   text-align: right;
   font-weight: normal;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 218, 218, 0.85);
   font-size: 0.9rem;
 }
 
@@ -41,7 +41,7 @@
 
 /* 悬停：仅微微提亮背景，几乎看不出 */
 .financial-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(112, 102, 102, 0.233);
 }
 
 .financial-table td:first-child {

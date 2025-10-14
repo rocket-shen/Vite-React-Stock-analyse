@@ -1,0 +1,113 @@
+/* ===== modal.css ===== */
+/* 遮罩层 */
+.modal-overlay {
+  position: fixed;
+  inset: 0; /* top right bottom left 全 0 */
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px); /* 毛玻璃 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* 对话框容器 */
+.modal-container {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  max-width: 90vw;
+  max-height: 90vh;
+  width: 640px; /* 默认宽度，可随内容自适应 */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: zoomIn 0.25s ease-out;
+}
+
+/* 头部 */
+.modal-header {
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 关闭按钮 */
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #cacaca;
+  transition: color 0.2s;
+}
+.modal-close:hover {
+  color: #777676;
+}
+
+/* 内容区 */
+.modal-body {
+  flex: 1;
+  padding: 20px;
+  overflow: auto; /* 内容过长时滚动 */
+}
+
+/* 底部 */
+.modal-footer {
+  padding: 12px 20px;
+  border-top: 1px solid #f0f0f0;
+  display: flex; /* 使用 Flexbox */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+.modal-footer button {
+  margin: 0; /* 移除可能的外边距 */
+  margin-left: 0 4px;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 离场动画（给 JS 控制） */
+.modal-overlay.leaving {
+  animation: fadeOut 0.18s ease-in forwards;
+}
+.modal-container.leaving {
+  animation: zoomOut 0.18s ease-in forwards;
+}
+@keyframes fadeOut {
+  to { opacity: 0; }
+}
+@keyframes zoomOut {
+  to {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+/* 小屏适配 */
+@media (max-width: 600px) {
+  .modal-container {
+    width: 94vw;
+    height: 85vh;
+    border-radius: 8px;
+  }
+}
