@@ -1,5 +1,8 @@
 import requests
+import datetime
 import json
+from src.config import URL_BONUS, HEADERS
+from src.utils.data_fetcher import fetch_hq_cookies
 
 def test_financial_data(symbol):
     """
@@ -9,27 +12,24 @@ def test_financial_data(symbol):
     """
     try:
         # 构造 API 请求的 URL
-        api_url = f"http://localhost:3000/api/fetchFinancialData?symbol={symbol}"
-        print(f"请求 URL: {api_url}")
-
-        # 发送 GET 请求
-        response = requests.get(api_url, timeout=10)
-        response.raise_for_status()  # 检查请求是否成功
-
-        # 解析 JSON 响应
-        data = response.json()
-
-        # 检查是否返回错误
-        if "error" in data:
-            print(f"错误: {data['error']}")
-            return
-
-        if data["exchangeData"]:
-            exchange_data = data["exchangeData"]
-            print(f"{data['stockName']} 股票交易所数据:",exchange_data)
-           
-
-       
+        cookies = fetch_hq_cookies()
+        params = {
+            'symbol': symbol,
+            'size': 30,
+            'page': 1,
+            'extend': 'true'
+        }
+        response = requests.get(URL_BONUS, headers={**HEADERS, "Cookie": cookies}, params=params)
+        response.raise_for_status()
+        data_list = response.json().get("data", {}).get("items", [])
+        for item in data_list:
+            for field in ['ashare_ex_dividend_date', 'ex_dividend_date', 'equity_date', 'dividend_date']:
+                if item.get(field) is not None:
+                    timestamp_ms = item[field]
+                    timestamp_s = timestamp_ms / 1000.0
+                    dt = datetime.datetime.fromtimestamp(timestamp_s)
+                    item[field] = dt.strftime('%Y%m%d')
+        print(data_list)
 
     except requests.exceptions.RequestException as e:
         print(f"请求失败: {str(e)}")

@@ -1,4 +1,4 @@
-from ..src.config import REPORT_DIR,ASSETS_DIR
+from src.config import REPORT_DIR,ASSETS_DIR
 import pandas as pd
 import os
 import json 

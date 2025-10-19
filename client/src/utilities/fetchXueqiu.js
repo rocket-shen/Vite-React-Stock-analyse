@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function fetchFinancialData(symbol) {
+export async function fetchXueqiu(symbol) {
     try {
         const response = await axios.get('http://localhost:3000/api/fetchFinancialData', {
             params: { symbol }

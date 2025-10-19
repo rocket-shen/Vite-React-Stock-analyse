@@ -1,42 +1,31 @@
-from ..src.utils.data_fetcher import fetch_financial_report,fetch_hq_cookies
+from src.utils.data_fetcher import fetch_hq_cookies,fetch_data
+from src.utils.data_process import process_financial_data
 import requests
-from ..src.config import HEADERS,STOCK_EXCHANGE_PATH
+from src.config import URL_BALANCE,URL_INCOME,URL_CASH
 import json
 from datetime import datetime
 
-def test_fetch_reports():
-    """测试 fetch_financial_report 函数"""
+def fetch_financial_data():
+    """测试读取财务数据"""
     try:
-        stock_code = "600519"  # 贵州茅台
-        data = fetch_financial_report(stock_code)
-        print(f"First record: {data[0]}")
-    except Exception as e:
-        print(f"Test failed: {str(e)}")
-        assert False, f"Test failed: {str(e)}"
-
-def fetch_exchange_data():
-    """测试读取股票交易所数据"""
-    try:
-        url = 'https://stock.xueqiu.com/v5/stock/quote.json'
-        pamarms = {
-            "symbol": "SH600887",
-            "extend": "detail"
-        }
+        params = {
+                "symbol": 'SH601126',
+                "type": "all",
+                "is_detail": "true",
+                "count": 30,
+                "timestamp": int(datetime.now().timestamp() * 1000)
+            }
         cookies = fetch_hq_cookies()
-        response = requests.get(url, headers={**HEADERS, "Cookie": cookies}, params=pamarms)
-        data = response.json()['data']['quote']
-        with open(STOCK_EXCHANGE_PATH, 'r', encoding='utf-8') as f:
-            exchange_data = json.load(f)
-        if "issue_date" in data:
-            data["issue_date"] = datetime.fromtimestamp(data["issue_date"] / 1000).strftime('%Y-%m-%d')
-            print(f'exchange data:{data}')
-        exchange_dict = {exchange_data[k]: v for k, v in data.items() if k in exchange_data}
-        exchange_list = [k for k in exchange_dict.keys()]
-        print(f"交易所数据 keys: {exchange_list}")
-        print(f"交易所数据数量: {len(exchange_list)}")
+        balance_data = fetch_data(URL_BALANCE, cookies, params)
+        income_data = fetch_data(URL_INCOME, cookies, params)
+        cash_data = fetch_data(URL_CASH, cookies, params)
+        data_list = process_financial_data(balance_data, income_data, cash_data)
+        print(f"Processed {len(data_list)} financial data entries.")
+        print(data_list[0] if data_list else "No data available.")
+        
     except Exception as e:
         print(f"Failed to load exchange data: {str(e)}")
         assert False, f"Failed to load exchange data: {str(e)}"
 
 if __name__ == "__main__":
-    fetch_exchange_data()
+    fetch_financial_data()

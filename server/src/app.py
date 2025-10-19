@@ -3,6 +3,7 @@ from flask_cors import CORS
 from src.api.financial import register_routes
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
 
 # 注册API路由

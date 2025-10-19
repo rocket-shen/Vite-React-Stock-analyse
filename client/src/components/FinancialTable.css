@@ -1,35 +1,60 @@
 .financial-table-container {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 0px;
-  background-color: transparent; 
-  border-radius: 0px;
+  width: 100%;
+  margin: 0;            /* 去掉 auto 居中带来的左右留白 */
+  padding: 0;
+  background: rgba(0, 0, 0, 0.08); /* 半透明背景以增强毛玻璃效果 */
+  border: 1px solid rgba(255, 255, 255, 0.12); /* 轻微边框增强玻璃质感 */
+  border-radius: 8px; /* 轻微圆角 */
+  height: 100%; /* 填充 modal-body 高度 */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box; /* 新增 */
+  min-height: 0; /* 新增：允许收缩 */
 }
 
-.financial-table-container h2 {
-   color: #fc6c6c;
+.financicl-table-container h2 {
+  margin: 8px 0;
+  color: #fc6c6c;
   text-align: center;
-  margin-bottom: 16px;
   font-weight: normal;
   font-size: 1.1rem;
   letter-spacing: 1px;
+  flex-shrink: 0; /* 防止标题压缩 */
+  padding: 0 12px; /* 新增：轻微内边距 */
+}
+
+.table-scroll {
+  flex: 1; /* 占据剩余空间 */
+  overflow-y: auto; /* 内容过长时滚动 */
+  display: block; /* 修改：简化，不用 grid 在此层 */
+  min-height: 0; /* 允许 flex 项收缩，但结合 grid 填满 */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .financial-table {
   width: 100%;
   border-collapse: collapse;
   color: rgba(255, 218, 218, 0.85); /* 降低纯白刺眼度 */
-  background: transparent;
+  table-layout: fixed; /* 关键：强制宽度布局 */
+  height: 100%;         /* 强制高度拉伸 */
+  display: table; /* 修改：恢复 table 显示，避免 block 破坏语义 */
+  margin: 0 auto; /* 新增：表格在 grid 中居中 */
 }
 
 /* 表头：仅底部 0.5 px 极细灰线 */
 .financial-table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(30,30,30,.45);
+  backdrop-filter: blur(4px);
   padding: 10px 12px;
   text-align: right;
   font-weight: normal;
+  font-size: 0.9rem;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);
   color: rgba(255, 218, 218, 0.85);
-  font-size: 0.9rem;
 }
 
 /* 单元格：去掉左右边框，仅保留极细底部分隔线 */
@@ -37,6 +62,12 @@
   padding: 10px 12px;
   text-align: right;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+  min-height: 20px; /* 新增：最小行高，防止行太矮 */
+}
+
+.financial-table tbody tr {
+  min-height: 20px; /* 新增：给行一个最小高度，拉伸填满（可根据需要调整） */
+  display: table-row; /* 确保行行为正常 */
 }
 
 /* 悬停：仅微微提亮背景，几乎看不出 */

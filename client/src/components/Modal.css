@@ -1,73 +1,95 @@
 /* ===== modal.css ===== */
-/* 遮罩层 */
+/* 遮罩层 - 全屏固定，半透明背景 */
 .modal-overlay {
   position: fixed;
-  inset: 0; /* top right bottom left 全 0 */
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(2px); /* 毛玻璃 */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(20, 20, 20, 0.5); /* 半透明遮罩背景 */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-  animation: fadeIn 0.2s ease-out;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  z-index: 1000; /* 高层级，确保悬浮在上方 */
+  animation: fadeIn 0.25s ease-out;
 }
 
-/* 对话框容器 */
-.modal-container {
-  background: #ffffff;
+/* 对话框容器 - 悬浮内容，毛玻璃效果 */
+.modal-container{
+  background: rgba(255, 255, 255, 0.08); /* 半透明背景以增强毛玻璃效果 */
+  backdrop-filter: blur(12px); /* 毛玻璃模糊效果 */
+  border: 1px solid rgba(255, 255, 255, 0.12); /* 轻微边框增强玻璃质感 */
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   max-width: 90vw;
   max-height: 90vh;
-  width: 640px; /* 默认宽度，可随内容自适应 */
+  min-height: 60vh; /* 新增：最小高度，确保内容少时不塌陷 */
+  width: 960px; /* 默认宽度，可随内容自适应 */
   display: flex;
   flex-direction: column;
   overflow: hidden;
   animation: zoomIn 0.25s ease-out;
+  box-sizing: border-box; /* 新增：包含边框/内边距 */
 }
 
 /* 头部 */
 .modal-header {
-  padding: 16px 20px;
-  font-size: 18px;
+  padding:  6px 20px;
+  font-size: 12px;
   font-weight: 600;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 调整为半透明边框 */
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: rgba(255, 255, 255, 0.85); /* 调整文字颜色以匹配毛玻璃主题 */
 }
 
 /* 关闭按钮 */
 .modal-close {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 12px;
   cursor: pointer;
-  color: #cacaca;
+  color: rgba(255, 255, 255, 0.7); /* 调整颜色 */
   transition: color 0.2s;
 }
 .modal-close:hover {
-  color: #777676;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-/* 内容区 */
-.modal-body {
-  flex: 1;
-  padding: 20px;
-  overflow: auto; /* 内容过长时滚动 */
+.modal-body.financial-scroll {
+  flex: 1 1 auto; /* 修改：使用 auto 以更好地响应内容 */
+  width: 100%;
+  padding: 0;
+  overflow: hidden; /* 关键：把滚动职责交给下一级 */
+  display: flex;    /* 再加一层 flex，让 .table-container 能 100% 高 */
+  flex-direction: column;
+  min-height: 0; /* 新增：允许 flex 项收缩，防止无限增长 */
+  box-sizing: border-box;
 }
 
 /* 底部 */
 .modal-footer {
-  padding: 12px 20px;
-  border-top: 1px solid #f0f0f0;
+  padding: 6px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* 调整为半透明边框 */
   display: flex; /* 使用 Flexbox */
   justify-content: center; /* 水平居中 */
   align-items: center; /* 垂直居中 */
+  flex-shrink: 0; /* 新增：防止 footer 被压缩 */
 }
 .modal-footer button {
-  margin: 0; /* 移除可能的外边距 */
-  margin-left: 0 4px;
+  margin: 0 4px; /* 修改：添加左右间距，避免按钮挤在一起 */
+}
+
+
+/* 小屏适配 */
+@media (max-width: 600px) {
+  .modal-container {
+    width: 94vw;
+    min-height: 70vh;
+    height: auto;
+    border-radius: 8px;
+  }
 }
 
 /* 动画 */
@@ -103,11 +125,3 @@
   }
 }
 
-/* 小屏适配 */
-@media (max-width: 600px) {
-  .modal-container {
-    width: 94vw;
-    height: 85vh;
-    border-radius: 8px;
-  }
-}

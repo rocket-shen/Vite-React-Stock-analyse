@@ -15,7 +15,7 @@ URL_HQ = "https://xueqiu.com/hq"
 URL_BALANCE = "https://stock.xueqiu.com/v5/stock/finance/cn/balance.json"
 URL_INCOME = "https://stock.xueqiu.com/v5/stock/finance/cn/income.json"
 URL_CASH = "https://stock.xueqiu.com/v5/stock/finance/cn/cash_flow.json"
-URL_BONUS = "https://stock.xueqiu.com/v5/stock/finance/cn/bonus.json"
+URL_BONUS = "https://stock.xueqiu.com/v5/stock/f10/cn/bonus.json?"
 URL_HOLDERS = "https://stock.xueqiu.com/v5/stock/f10/cn/holders.json"
 URL_EXCHANGE = "https://stock.xueqiu.com/v5/stock/quote.json"
 
@@ -25,3 +25,4 @@ HEADERS = {
     "Referer": "https://xueqiu.com/hq",
     "Accept": "application/json",
 }
+

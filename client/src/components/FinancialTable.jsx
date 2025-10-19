@@ -1,13 +1,10 @@
 import React from 'react';
 import './FinancialTable.css'; // 假设有对应的 CSS 文件
 
-function FinancialTable({ data }) {
-  if (!data || !data.reportData || data.reportData.length === 0) {
+function FinancialTable({ reportData, stockName }) {
+  if (!reportData || !Array.isArray(reportData) || reportData.length === 0) {
     return <div>暂无报告数据</div>;
   }
-
-  const companyName = data.stockName || "未知公司";
-  const reportData = data.reportData;
 
   // 定义表格列：基于提供的示例数据结构
   const columns = [
@@ -46,8 +43,8 @@ const formatLargeNumber = (num) => {
 
   return (
     <div className="financial-table-container">
-      <h2>{companyName} 业绩报告数据</h2>
-      <div className="table-scroll-wrapper">
+      <h2>{stockName} 业绩报告数据</h2>
+      <div className="table-scroll">
         <table className="financial-table">
           <thead>
             <tr>
