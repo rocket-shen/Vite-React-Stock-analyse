@@ -29,7 +29,6 @@ def test_financial_data(symbol):
                     timestamp_s = timestamp_ms / 1000.0
                     dt = datetime.datetime.fromtimestamp(timestamp_s)
                     item[field] = dt.strftime('%Y%m%d')
-        print(data_list)
 
     except requests.exceptions.RequestException as e:
         print(f"请求失败: {str(e)}")

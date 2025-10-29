@@ -1,18 +1,20 @@
 import './FinancialTable.css'; 
 
-function MarketValueTable({ marketValue, stockName }) {
-    if (!marketValue || !Array.isArray(marketValue) || marketValue.length === 0) {
+function MarketCapTable({ marketCapData, stockName }) {
+    if (!marketCapData || !Array.isArray(marketCapData) || marketCapData.length === 0) {
     return <div>暂无市值数据</div>;
     }
 
-    marketValue.sort((a, b) => new Date(b.change_date) - new Date(a.change_date));
+    marketCapData.sort((a, b) => new Date(b.event_date) - new Date(a.event_date));
 
     const columns = [
-        {key:'change_date', label:'变动日期'},
-        {key:'close_price', label:'收盘', format: (value) => value ? value.toFixed(2) : 'N/A' },
+        {key:'date_type', label:'日期类型'},
+        {key:'event_date', label:'事件日期'},
+        {key:'close_price', label:'股价'},
+        {key:'share_capital_billion', label:'总股本（亿）'},
+        {key:'market_cap_billion', label:'总市值(亿)'},
+        {key:'flowed_shares_billion', label:'流通股本(亿)'},
         {key:'change_reason', label:'变动原因'},
-        {key:'total_shares', label:'总股本', format: (value) => value ? value.toFixed(2) : 'N/A' },
-        {key:'total_market_value', label:'总市值(亿)', format: (value) => value ? value.toFixed(2) : 'N/A' },
     ]
 
   return (
@@ -28,7 +30,7 @@ function MarketValueTable({ marketValue, stockName }) {
             </tr>
           </thead>
           <tbody>
-            {marketValue.map((row, index) => (
+            {marketCapData.map((row, index) => (
               <tr key={index}>
                 {columns.map((col) => (
                   <td key={col.key}>
@@ -46,4 +48,4 @@ function MarketValueTable({ marketValue, stockName }) {
   );
 };
 
-export default MarketValueTable;
+export default MarketCapTable;

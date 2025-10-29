@@ -57,7 +57,7 @@ def register_routes(app):
         except Exception as e:
             return jsonify({"error": f"程序执行失败: {str(e)}"}), 500
         
-    @app.route("/api/stockData", methods=["GET"])
+    @app.route("/api/fetchStockBonus", methods=["GET"])
     def fetch_stock_data():
         """获取股票市值数据"""
         try:
@@ -77,15 +77,44 @@ def register_routes(app):
                 'extend': 'true'
             }
             bonus_data = fetch_bonus_data(URL_BONUS, cookies, params)
-            print(f"bonus_data: {bonus_data}")
-
             
-            market_value = fetch_market_value(code)
-            if market_value is None:
+            if bonus_data is None:
                 return jsonify({"error": f"未找到股票代码 {code} 的市值数据"}), 404
             return jsonify({
-                'marketValue': market_value,
                 'bonusData': bonus_data
             })
         except Exception as e:
             return jsonify({"error": f"程序执行失败: {str(e)}"}), 500
+        
+    @app.route("/api/fetchMarketCap", methods=["GET"])
+    def fetch_market_cap():
+        code = request.args.get('symbol')  # 前端传的是 symbol
+        if not code or not code.isdigit() or len(code) != 6:
+            return jsonify({
+                "success": False,
+                "error": "股票代码必须为6位数字",
+                "data": []
+            }), 400
+
+        try:
+            data = fetch_market_value(code)
+            if not data:
+                return jsonify({
+                    "success": False,
+                    "error": f"未找到股票 {code} 的历史数据",
+                    "data": []
+                }), 404
+
+            return jsonify({
+                "success": True,
+                "code": code,
+                "count": len(data),
+                "data": data
+            })
+        except Exception as e:
+            return jsonify({
+                "success": False,
+                "error": f"服务器内部错误: {str(e)}",
+                "data": []
+            }), 500
+

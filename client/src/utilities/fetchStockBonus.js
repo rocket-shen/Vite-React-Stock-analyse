@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export async function fetchStockData(symbol) {
+export async function fetchStockBonus(symbol) {
     try {
-        const response = await axios.get('http://localhost:3000/api/stockData', {
+        const response = await axios.get('http://localhost:3000/api/fetchStockBonus', {
             params: { code: symbol }
         });
         return response.data;
